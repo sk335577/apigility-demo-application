@@ -1,0 +1,5 @@
+local.php
+local-development.php
+*.local.php
+*.local-development.php
+!/local.php
