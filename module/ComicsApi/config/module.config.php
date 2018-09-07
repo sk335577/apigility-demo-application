@@ -119,4 +119,24 @@ return [
             ],
         ],
     ],
+    'zf-mvc-auth' => [
+        'authorization' => [
+            'ComicsApi\\V1\\Rest\\Characters\\Controller' => [
+                'collection' => [
+                    'GET' => false,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ],
+                'entity' => [
+                    'GET' => false,
+                    'POST' => false,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => true,
+                ],
+            ],
+        ],
+    ],
 ];
