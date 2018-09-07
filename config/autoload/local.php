@@ -21,7 +21,17 @@ return [
     ],
     'zf-mvc-auth' => [
         'authentication' => [
-            'adapters' => [],
+            'adapters' => [
+                'oauth pdo authentication adapter' => [
+                    'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
+                    'storage' => [
+                        'adapter' => \pdo::class,
+                        'dsn' => 'mysql:host=localhost;dbname=zend_comics',
+                        'route' => '/oauth',
+                        'username' => 'root',
+                    ],
+                ],
+            ],
         ],
     ],
 ];

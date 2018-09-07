@@ -1,5 +1,4 @@
 <?php
-
 return [
     'zf-content-negotiation' => [
         'selectors' => [],
@@ -23,6 +22,17 @@ return [
         'authentication' => [
             'map' => [
                 'SuperheroesAPI\\V1' => 'superheroes auth adapter (http basic)',
+            ],
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'oauth' => [
+                'options' => [
+                    'spec' => '%oauth%',
+                    'regex' => '(?P<oauth>(/oauth))',
+                ],
+                'type' => 'regex',
             ],
         ],
     ],

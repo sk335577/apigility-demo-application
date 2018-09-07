@@ -3,3 +3,4 @@ local-development.php
 *.local.php
 *.local-development.php
 !/local.php
+!/oauth2.local.php

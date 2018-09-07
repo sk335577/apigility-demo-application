@@ -2,7 +2,6 @@
 vendor/
 nbproject/
 nbproject/*
-config/development.config.php
 data/cache/*
 !data/cache/.gitkeep
 phpunit.xml

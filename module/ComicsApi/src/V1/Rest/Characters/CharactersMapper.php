@@ -86,45 +86,6 @@ class CharactersMapper {
     }
 
     public function save($data, $id = 0) {
-        $data = (array) $data;
-        $parameters = [
-            $data['username'],
-            $data['email'],
-            $data['first_name'],
-            $data['last_name'],
-        ];
-        if ($id > 0) {
-            $data['id'] = $id;
-            array_push($parameters, $id);
-        }
-
-
-        if (isset($data['id'])) {
-            $sql = <<<SQL
-UPDATE APIGILITY.ECOMMERCE_USERS
-SET USERNAME   = ?,
-    EMAIL      = ?,
-    FIRST_NAME = ?,
-    LAST_NAME  = ?
-WHERE ID = ?
-SQL;
-            $result = $this->db->query($sql, $parameters);
-        } else {
-            $sql = new \Zend\Db\Sql($this->database_adapter);
-            $insert = $sql->
-                    $sql = <<<SQL
-INSERT INTO sktd_characters (character_name)
-VALUES (?, ?, ?, ?)
-SQL;
-
-            $result = $this->db->query($sql, $parameters);
-            $data['id'] = $this->db->getDriver()->getLastGeneratedValue();
-        }
-
-        return $this->fetchOne($data['id']);
-    }
-
-    public function add($data, $id = 0) {
 
         $data = (array) $data;
 
@@ -133,17 +94,19 @@ SQL;
         }
 
         if (isset($data['id'])) {
-            $sql = 'UPDATE album SET title = :title, artist = :artist WHERE id = :id';
+            $sql = 'UPDATE album SET character_name = :character_name, real_name = :real_name WHERE id = :id';
             $result = $this->database_adapter->query($sql, $data);
         } else {
-            $sql = 'INSERT INTO album (title, artist) VALUES(:title, :artist)';
+            $sql = 'INSERT INTO album (character_name, real_name) VALUES(:character_name, :real_name)';
             $result = $this->database_adapter->query($sql, $data);
             $data['id'] = $this->database_adapter->getDriver()->getLastGeneratedValue();
         }
 
-        $entity = new UsersEntity();
-        $entity->populate($data);
+        $entity = new CharactersEntity();
+        $entity->exchangeArray($data);
+//        $entity->populate($data);//This will also work
         return $entity;
+//        return $this->fetchOne($data['id']);//This will also work
     }
 
     public function insert($data = []) {
@@ -157,13 +120,44 @@ SQL;
         return $this->fetchOne($lastid);
     }
 
-    public function delete($id) {
-        $QQ = new ZendDbSqlExpression('?');
-        $delete = new Delete($this->table);
-        $delete->where(['ID' => $QQ]);
-        $result = $this->db->query($delete->getSqlString(), [$id]);
+    public function update($data = [], $id = 0, $extra_filters = []) {
+        $data = (array) $data;
+        $sql = new Sql($this->database_adapter);
+        $update = $sql->update('sktd_characters');
+        $update->set($data);
+        $update->where(['id' => $id]);
+        if (!empty($extra_filters)) {
+            $update->where($extra_filters);
+        }
+        $statement = $sql->prepareStatementForSqlObject($update);
+        $result = $statement->execute();
+        if ($result->count() >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        return $result->getAffectedRows() > 0;
+    public function delete($id = 0, $extra_filters = []) {
+        $sql = new Sql($this->database_adapter);
+        $delete = $sql->delete('sktd_characters');
+
+        if ($id > 0) {
+            $update->where(['id' => $id]);
+        }
+
+        if (!empty($extra_filters)) {
+            $update->where($extra_filters);
+        }
+
+        $statement = $sql->prepareStatementForSqlObject($delete);
+        $result = $statement->execute();
+
+        if ($result->count() >= 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
