@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
@@ -15,10 +16,9 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
  * once the Admin module is loaded, the controller is able to find it and
  * will attempt the redirect.
  */
-class ZZIndexControllerDevModeTest extends AbstractHttpControllerTestCase
-{
-    public function setUp()
-    {
+class ZZIndexControllerDevModeTest extends AbstractHttpControllerTestCase {
+
+    public function setUp() {
         // The module configuration should still be applicable for tests.
         // You can override configuration here with test case specific values,
         // such as sample view templates, path stacks, module_listener_options,
@@ -38,17 +38,16 @@ class ZZIndexControllerDevModeTest extends AbstractHttpControllerTestCase
         ];
 
         $this->setApplicationConfig(ArrayUtils::merge(
-            include __DIR__ . '/../../../../config/application.config.php',
-            $configOverrides
+                        include __DIR__ . '/../../../../config/application.config.php', $configOverrides
         ));
 
         parent::setUp();
     }
 
-    public function testIndexActionRedirectsToAdminUi()
-    {
+    public function testIndexActionRedirectsToAdminUi() {
         $this->dispatch('/', 'GET');
         $this->assertResponseStatusCode(302);
         $this->assertRedirectRegex('#/ui$#');
     }
+
 }
