@@ -1,6 +1,6 @@
 {
-    "name": "zfcampus/zf-apigility-skeleton",
-    "description": "Skeleton Application for Apigility",
+    "name": "sk335577/apigility-demo-application",
+    "description": "Demo Comics API Application built with Apigility",
     "type": "project",
     "license": "BSD-3-Clause",
     "keywords": [
