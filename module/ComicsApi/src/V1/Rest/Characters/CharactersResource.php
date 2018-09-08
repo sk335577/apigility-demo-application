@@ -17,10 +17,7 @@ class CharactersResource extends AbstractResourceListener {
     }
 
     public function create($data) {
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";die;
-        return $this->mapper->insert($data);
+        return $this->characters_service->createCharacter($data);
     }
 
     public function delete($id) {

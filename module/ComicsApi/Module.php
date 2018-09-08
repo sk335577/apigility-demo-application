@@ -30,7 +30,7 @@ class Module implements ApigilityProviderInterface {
                     return new V1\Rest\Characters\CharactersMapper($sm->get('Comics Database Adapter'));
                 },
                 V1\Rest\Characters\CharactersService::class => function ($sm) {
-                    return new V1\Rest\Characters\CharactersService($sm->get(V1\Rest\Characters\CharactersMapper::class));
+                    return new V1\Rest\Characters\CharactersService($sm->get(V1\Rest\Characters\CharactersMapper::class), $sm->get(\MediaManager\Service\MediaService::class));
                 }
             ]
         ];
