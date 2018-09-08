@@ -9,12 +9,17 @@ use ComicsApi\V1\Rest\Characters\CharactersMapper;
 class CharactersResource extends AbstractResourceListener {
 
     public $mapper;
+    public $characters_service;
 
-    public function __construct(CharactersMapper $mapper) {
+    public function __construct(CharactersMapper $mapper, CharactersService $characters_service) {
         $this->mapper = $mapper;
+        $this->characters_service = $characters_service;
     }
 
     public function create($data) {
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";die;
         return $this->mapper->insert($data);
     }
 

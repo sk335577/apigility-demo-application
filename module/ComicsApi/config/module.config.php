@@ -3,6 +3,7 @@ return [
     'service_manager' => [
         'factories' => [
             \ComicsApi\V1\Rest\Characters\CharactersResource::class => \ComicsApi\V1\Rest\Characters\CharactersResourceFactory::class,
+            \ComicsApi\V1\Rest\Publishers\PublishersResource::class => \ComicsApi\V1\Rest\Publishers\PublishersResourceFactory::class,
         ],
     ],
     'router' => [
@@ -16,11 +17,21 @@ return [
                     ],
                 ],
             ],
+            'comics-api.rest.publishers' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/publishers[/:publisher_id]',
+                    'defaults' => [
+                        'controller' => 'ComicsApi\\V1\\Rest\\Publishers\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
         'uri' => [
             1 => 'comics-api.rest.characters',
+            0 => 'comics-api.rest.publishers',
         ],
     ],
     'zf-rest' => [
@@ -31,9 +42,8 @@ return [
             'collection_name' => 'characters',
             'entity_http_methods' => [
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
+                1 => 'DELETE',
+                2 => 'PATCH',
             ],
             'collection_http_methods' => [
                 0 => 'GET',
@@ -48,13 +58,41 @@ return [
             'collection_class' => \ComicsApi\V1\Rest\Characters\CharactersCollection::class,
             'service_name' => 'Characters',
         ],
+        'ComicsApi\\V1\\Rest\\Publishers\\Controller' => [
+            'listener' => \ComicsApi\V1\Rest\Publishers\PublishersResource::class,
+            'route_name' => 'comics-api.rest.publishers',
+            'route_identifier_name' => 'publisher_id',
+            'collection_name' => 'publishers',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \ComicsApi\V1\Rest\Publishers\PublishersEntity::class,
+            'collection_class' => \ComicsApi\V1\Rest\Publishers\PublishersCollection::class,
+            'service_name' => 'Publishers',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
-            'ComicsApi\\V1\\Rest\\Characters\\Controller' => 'HalJson',
+            'ComicsApi\\V1\\Rest\\Characters\\Controller' => 'Json',
+            'ComicsApi\\V1\\Rest\\Publishers\\Controller' => 'Json',
         ],
         'accept_whitelist' => [
             'ComicsApi\\V1\\Rest\\Characters\\Controller' => [
+                0 => 'application/vnd.comics-api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'ComicsApi\\V1\\Rest\\Publishers\\Controller' => [
                 0 => 'application/vnd.comics-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -65,20 +103,36 @@ return [
                 0 => 'application/vnd.comics-api.v1+json',
                 1 => 'application/json',
             ],
+            'ComicsApi\\V1\\Rest\\Publishers\\Controller' => [
+                0 => 'application/vnd.comics-api.v1+json',
+                1 => 'application/json',
+            ],
         ],
     ],
     'zf-hal' => [
         'metadata_map' => [
             \ComicsApi\V1\Rest\Characters\CharactersEntity::class => [
-                'entity_identifier_name' => 'id',
+                'entity_identifier_name' => 'character_id',
                 'route_name' => 'comics-api.rest.characters',
                 'route_identifier_name' => 'character_id',
                 'hydrator' => \Zend\Hydrator\ArraySerializable::class,
             ],
             \ComicsApi\V1\Rest\Characters\CharactersCollection::class => [
-                'entity_identifier_name' => 'id',
+                'entity_identifier_name' => 'character_id',
                 'route_name' => 'comics-api.rest.characters',
                 'route_identifier_name' => 'character_id',
+                'is_collection' => true,
+            ],
+            \ComicsApi\V1\Rest\Publishers\PublishersEntity::class => [
+                'entity_identifier_name' => 'publisher_id',
+                'route_name' => 'comics-api.rest.publishers',
+                'route_identifier_name' => 'publisher_id',
+                'hydrator' => \Zend\Hydrator\ArraySerializable::class,
+            ],
+            \ComicsApi\V1\Rest\Publishers\PublishersCollection::class => [
+                'entity_identifier_name' => 'publisher_id',
+                'route_name' => 'comics-api.rest.publishers',
+                'route_identifier_name' => 'publisher_id',
                 'is_collection' => true,
             ],
         ],
@@ -111,11 +165,33 @@ return [
             1 => [
                 'required' => true,
                 'validators' => [],
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                        'options' => [],
+                    ],
+                ],
+                'name' => 'character_real_name',
+                'error_message' => 'Character real name is mandatory',
+            ],
+            2 => [
+                'required' => false,
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\File\Size::class,
+                        'options' => [
+                            'max' => '5MB',
+                        ],
+                    ],
+                    1 => [
+                        'name' => \Zend\Validator\File\IsImage::class,
+                        'options' => [],
+                    ],
+                ],
                 'filters' => [],
-                'name' => 'real_name',
-                'field_type' => 'text',
-                'description' => 'Real name of the character',
-                'error_message' => 'Real name',
+                'name' => 'character_picture',
+                'type' => \Zend\InputFilter\FileInput::class,
+                'field_type' => 'file',
             ],
         ],
     ],
@@ -134,7 +210,7 @@ return [
                     'POST' => false,
                     'PUT' => false,
                     'PATCH' => false,
-                    'DELETE' => true,
+                    'DELETE' => false,
                 ],
             ],
         ],

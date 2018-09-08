@@ -19,6 +19,13 @@ return [
             'scope_table' => 'sktd_oauth_scopes',
             'public_key_table' => 'sktd_oauth_public_keys',
         ],
+        'grant_types' => [
+            'client_credentials' => true,
+            'authorization_code' => true,
+            'password' => true,
+            'refresh_token' => true,
+            'jwt' => true,
+        ],
         /**
          * These special OAuth2Server options are parsed outside the options array
          */

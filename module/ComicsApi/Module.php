@@ -4,7 +4,6 @@ namespace ComicsApi;
 
 use ZF\Apigility\Provider\ApigilityProviderInterface;
 use Zend\Db\Adapter\AdapterAbstractServiceFactory;
-use ComicsApi\V1\Rest\Characters\CharactersMapper;
 use Application;
 
 class Module implements ApigilityProviderInterface {
@@ -27,9 +26,11 @@ class Module implements ApigilityProviderInterface {
     public function getServiceConfig() {
         return [
             'factories' => [
-                CharactersMapper::class => function ($sm) {
-                    $adapter = $sm->get('Comics Database Mysqli Adapter');
-                    return new CharactersMapper($adapter);
+                V1\Rest\Characters\CharactersMapper::class => function ($sm) {
+                    return new V1\Rest\Characters\CharactersMapper($sm->get('Comics Database Adapter'));
+                },
+                V1\Rest\Characters\CharactersService::class => function ($sm) {
+                    return new V1\Rest\Characters\CharactersService($sm->get(V1\Rest\Characters\CharactersMapper::class));
                 }
             ]
         ];

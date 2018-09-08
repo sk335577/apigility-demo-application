@@ -5,7 +5,7 @@ return [
     ],
     'db' => [
         'adapters' => [
-            'Comics Database Mysqli Adapter' => [],
+            'Comics Database Adapter' => [],
         ],
     ],
     'view_manager' => [
@@ -22,18 +22,11 @@ return [
         'authentication' => [
             'map' => [
                 'SuperheroesAPI\\V1' => 'superheroes auth adapter (http basic)',
+                'ComicsApi\\V1' => 'http basic authentication adapter',
             ],
         ],
     ],
     'router' => [
-        'routes' => [
-            'oauth' => [
-                'options' => [
-                    'spec' => '%oauth%',
-                    'regex' => '(?P<oauth>(/oauth))',
-                ],
-                'type' => 'regex',
-            ],
-        ],
+        'routes' => [],
     ],
 ];

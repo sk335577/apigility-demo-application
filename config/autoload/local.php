@@ -12,9 +12,9 @@ return [
     ],
     'db' => [
         'adapters' => [
-            'Comics Database Mysqli Adapter' => [
+            'Comics Database Adapter' => [
                 'database' => 'zend_comics',
-                'driver' => \Mysqli::class,
+                'driver' => 'PDO_Mysql',
                 'username' => 'root',
             ],
         ],
@@ -22,13 +22,23 @@ return [
     'zf-mvc-auth' => [
         'authentication' => [
             'adapters' => [
-                'oauth pdo authentication adapter' => [
+                'oauth2 authentication adapter' => [
                     'adapter' => \ZF\MvcAuth\Authentication\OAuth2Adapter::class,
                     'storage' => [
                         'adapter' => \pdo::class,
                         'dsn' => 'mysql:host=localhost;dbname=zend_comics',
                         'route' => '/oauth',
                         'username' => 'root',
+                    ],
+                ],
+                'http basic authentication adapter' => [
+                    'adapter' => \ZF\MvcAuth\Authentication\HttpAdapter::class,
+                    'options' => [
+                        'accept_schemes' => [
+                            0 => 'basic',
+                        ],
+                        'realm' => 'Apigility Demo Application',
+                        'htpasswd' => 'data/htpasswd/.htpasswd',
                     ],
                 ],
             ],

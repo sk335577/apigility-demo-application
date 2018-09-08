@@ -24,7 +24,12 @@ class CharactersMapper {
 
     public function fetchAll($columns = [], $filters = []) {
 
-        $select = new Select('sktd_characters');
+        $sql = new Sql($this->database_adapter);
+
+//        $select = new Select('sktd_characters');
+        $select = $sql->select('sktd_characters');
+
+        $select->join('sktd_publishers', 'sktd_publishers.publisher_id=sktd_characters.character_publisher_id', ['publisher_name'], 'left');
 
         if (!empty($columns)) {
             $select->columns($columns);
@@ -60,12 +65,14 @@ class CharactersMapper {
 
         $select = $sql->select('sktd_characters');
 
+        $select->join('sktd_publishers', 'sktd_publishers.publisher_id=sktd_characters.character_publisher_id', ['publisher_name'], 'left');
+
         if (!empty($columns)) {
             $select->columns($columns);
         }
 
         if ($id) {
-            $select->where(['id' => $id]);
+            $select->where(['character_id' => $id]);
         }
 
         if (!empty($secondary_filters)) {
