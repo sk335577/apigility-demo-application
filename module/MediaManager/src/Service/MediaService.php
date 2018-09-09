@@ -4,13 +4,14 @@ namespace MediaManager\Service;
 
 use Zend\Db\Adapter\AdapterInterface;
 use Intervention\Image\ImageManagerStatic as Image;
+use MediaManager\Model\MediaTable;
 
 class MediaService {
 
     private $media_table;
     private $config;
 
-    public function __construct(array $config, $media_table
+    public function __construct(array $config, MediaTable $media_table
     ) {
         $this->config = $config;
         $this->media_table = $media_table;
@@ -22,23 +23,22 @@ class MediaService {
      * Create directories in media folder
      */
     public function prepareMediaDirectory() {
+
         $year = date("Y");
         $month = date("m");
         $day = date("d");
-        $directory = $this->getMediaDirectoryPath() . "/$year/$month/$day";
+
+        $directory = "{$this->config['media_manager_settings']['media_directory_name']}/$year/$month/$day";
+
         if (!is_dir($directory)) {
             try {
-                mkdir($directory, 0777, true);
-                chmod($directory, 0777);
-            } catch (Exception $exc) {
+                mkdir($directory, 0755, true);
+                chmod($directory, 0755);
+            } catch (Exception $exception) {
                 
             }
         }
-        return [
-            'year' => $year,
-            'month' => $month,
-            'day' => $day,
-        ];
+        return ['year' => $year, 'month' => $month, 'day' => $day];
     }
 
     public function checkFileExists($filename) {
@@ -69,8 +69,8 @@ class MediaService {
     }
 
     public function create($file) {
-        die('xx');
         $prepared_directory_data = $this->prepareMediaDirectory();
+        die('xx');
 
         $temp = array();
 
