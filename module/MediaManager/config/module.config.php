@@ -7,8 +7,6 @@
 
 namespace MediaManager;
 
-use Zend\ServiceManager\Factory\InvokableFactory;
-
 return [
     'media_manager_settings' => [
         'media_directory_path' => $_SERVER['DOCUMENT_ROOT'] . '/media'

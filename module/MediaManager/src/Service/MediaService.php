@@ -17,11 +17,6 @@ class MediaService {
         $this->media_table = $media_table;
     }
 
-    /**
-     * prepareMediaDirectory
-     * 
-     * Create directories in media folder
-     */
     public function prepareMediaDirectory() {
 
         $year = date("Y");
@@ -35,7 +30,7 @@ class MediaService {
                 mkdir($directory, 0755, true);
                 chmod($directory, 0755);
             } catch (Exception $exception) {
-                
+                throw new RuntimeException('Media Manager : Not able to create ' . $directory);
             }
         }
         return ['year' => $year, 'month' => $month, 'day' => $day];
@@ -69,14 +64,16 @@ class MediaService {
     }
 
     public function create($file) {
+
         $prepared_directory_data = $this->prepareMediaDirectory();
-        die('xx');
 
-        $temp = array();
+        $prepared_media_data = array();
 
-        $file_data = pathinfo($file);
-
-        $save_media_data["title"] = $file_data['filename']; //get title only
+        $file_data = pathinfo($file['name']);
+        echo "<pre>";
+        print_r($file_data);
+        echo "</pre>";die;
+        $prepared_media_data["title"] = $file_data['filename']; //get title only
 
         $file_data = $this->generateFileName($file_data);
 

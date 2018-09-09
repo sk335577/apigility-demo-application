@@ -12,17 +12,6 @@ return [
         'class_name_scalars' => true,
     ],
     'db' => [
-        //Default database connection which we can use with specifying its name
-        //$container->get(\Zend\Db\Adapter\AdapterInterface::class);
-//        'driver' => 'Mysqli',
-//        'database' => 'junk_albums',
-//        'hostname' => 'localhost',
-//        'username' => 'root',
-//        'password' => '',
-//        'driver_options' => [
-//            'buffer_results' => true,
-//            'MYSQLI_INIT_COMMAND' => " SET SESSION time_zone = '+00:00';"
-//        ],
         'adapters' => [
             'Comics Database Adapter' => [
                 'database' => 'zend_comics',

@@ -20,15 +20,16 @@ class Module {
                     $tableGateway = $sm->get(Model\MediaTableGateway::class);
                     return new Model\MediaTable($tableGateway);
                 },
+                Service\MediaService::class => function ($sm) {
+                    $tableGateway = $sm->get(Model\MediaTableGateway::class);
+                    return new Service\MediaService($sm->get("Config"), $sm->get($tableGateway));
+                },
                 Model\MediaTableGateway::class => function ($sm) {
-                    $dbAdapter = $container->get($sm->get('Comics Database Adapter'));
+                    $dbAdapter = $sm->get($sm->get('Comics Database Adapter'));
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Model\Media());
                     return new TableGateway('sktd_media', $dbAdapter, null, $resultSetPrototype);
                 },
-                Service\MediaService::class => function ($sm) {
-                    return new Service\MediaService($sm->get("Config"), Model\MediaTableGateway::class);
-                }
             ],
         ];
     }

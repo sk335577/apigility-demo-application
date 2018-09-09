@@ -4,3 +4,4 @@ local-development.php
 *.local-development.php
 !/local.php
 !/oauth2.local.php
+!/error-hero-module.local.php
