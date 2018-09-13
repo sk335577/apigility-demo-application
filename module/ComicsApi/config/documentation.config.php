@@ -47,7 +47,8 @@ return [
             'PATCH' => [
                 'request' => '{
    "character_name": "Name of the character",
-   "character_real_name": ""
+   "character_real_name": "",
+   "character_picture": ""
 }',
                 'response' => '{
    "_links": {
@@ -56,13 +57,15 @@ return [
        }
    }
    "character_name": "Name of the character",
-   "character_real_name": ""
+   "character_real_name": "",
+   "character_picture": ""
 }',
             ],
             'DELETE' => [
                 'request' => '{
    "character_name": "Name of the character",
-   "character_real_name": ""
+   "character_real_name": "",
+   "character_picture": ""
 }',
                 'response' => '{
    "_links": {
@@ -71,7 +74,8 @@ return [
        }
    }
    "character_name": "Name of the character",
-   "character_real_name": ""
+   "character_real_name": "",
+   "character_picture": ""
 }',
             ],
             'GET' => [
@@ -82,7 +86,8 @@ return [
        }
    }
    "character_name": "Name of the character",
-   "character_real_name": ""
+   "character_real_name": "",
+   "character_picture": ""
 }',
             ],
         ],

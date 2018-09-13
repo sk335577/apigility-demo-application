@@ -32,8 +32,7 @@ class CharactersResource extends AbstractResourceListener {
         return $this->mapper->fetchOne($id);
     }
 
-    public function fetchAll($params = []) {
-        die('xx');
+    public function fetchAll($params = []) {  
         return $this->mapper->fetchAll();
     }
 

@@ -4977,16 +4977,16 @@
         },
         {
             "name": "zfcampus/zf-apigility-admin-ui",
-            "version": "1.3.9",
+            "version": "1.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-apigility-admin-ui.git",
-                "reference": "20f5b79643c00fdc9b8e3ddd33d9700a9240ccd6"
+                "reference": "4b4435296fa40d7ad2b5d1397a219fb5cbf72140"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-apigility-admin-ui/zipball/20f5b79643c00fdc9b8e3ddd33d9700a9240ccd6",
-                "reference": "20f5b79643c00fdc9b8e3ddd33d9700a9240ccd6",
+                "url": "https://api.github.com/repos/zfcampus/zf-apigility-admin-ui/zipball/4b4435296fa40d7ad2b5d1397a219fb5cbf72140",
+                "reference": "4b4435296fa40d7ad2b5d1397a219fb5cbf72140",
                 "shasum": ""
             },
             "require": {
@@ -5024,7 +5024,7 @@
                 "framework",
                 "zf2"
             ],
-            "time": "2016-12-19T17:46:02+00:00"
+            "time": "2018-09-10T21:22:02+00:00"
         },
         {
             "name": "zfcampus/zf-asset-manager",

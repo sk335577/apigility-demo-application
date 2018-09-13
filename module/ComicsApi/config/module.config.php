@@ -83,8 +83,8 @@ return [
     ],
     'zf-content-negotiation' => [
         'controllers' => [
-            'ComicsApi\\V1\\Rest\\Characters\\Controller' => 'Json',
-            'ComicsApi\\V1\\Rest\\Publishers\\Controller' => 'Json',
+            'ComicsApi\\V1\\Rest\\Characters\\Controller' => 'HalJson',
+            'ComicsApi\\V1\\Rest\\Publishers\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
             'ComicsApi\\V1\\Rest\\Characters\\Controller' => [

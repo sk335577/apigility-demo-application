@@ -7,6 +7,12 @@
 
 namespace MediaManager;
 
+use MediaManager\Model\Media;
+use MediaManager\Model\MediaTable;
+use MediaManager\Service\MediaService;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+
 class Module {
 
     public function getConfig() {
@@ -16,18 +22,18 @@ class Module {
     public function getServiceConfig() {
         return [
             'factories' => [
-                Model\MediaTable::class => function($sm) {
-                    $tableGateway = $sm->get(Model\MediaTableGateway::class);
-                    return new Model\MediaTable($tableGateway);
+                MediaTable::class => function($sm) {
+                    $tableGateway = $sm->get(MediaTableGateway::class);
+                    return new MediaTable($tableGateway);
                 },
-                Service\MediaService::class => function ($sm) {
-                    $tableGateway = $sm->get(Model\MediaTableGateway::class);
-                    return new Service\MediaService($sm->get("Config"), $sm->get($tableGateway));
+                MediaService::class => function ($sm) {
+                    $tableGateway = $sm->get(MediaTable::class);
+                    return new MediaService($sm->get("Config"), $tableGateway);
                 },
-                Model\MediaTableGateway::class => function ($sm) {
-                    $dbAdapter = $sm->get($sm->get('Comics Database Adapter'));
+                MediaTableGateway::class => function ($sm) {
+                    $dbAdapter = $sm->get('Comics Database Adapter');
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new Model\Media());
+                    $resultSetPrototype->setArrayObjectPrototype(new Media());
                     return new TableGateway('sktd_media', $dbAdapter, null, $resultSetPrototype);
                 },
             ],

@@ -3,6 +3,7 @@
 namespace ComicsApi\V1\Rest\Characters;
 
 use ComicsApi\V1\Rest\Characters\CharactersMapper;
+use ComicsApi\V1\Rest\Characters\CharactersService;
 
 class CharactersResourceFactory {
 

@@ -23,7 +23,7 @@ class MediaService {
         $month = date("m");
         $day = date("d");
 
-        $directory = "{$this->config['media_manager_settings']['media_directory_name']}/$year/$month/$day";
+        $directory = "{$this->config['media_manager_settings']['media_directory_path']}/$year/$month/$day";
 
         if (!is_dir($directory)) {
             try {
@@ -70,9 +70,7 @@ class MediaService {
         $prepared_media_data = array();
 
         $file_data = pathinfo($file['name']);
-        echo "<pre>";
-        print_r($file_data);
-        echo "</pre>";die;
+
         $prepared_media_data["title"] = $file_data['filename']; //get title only
 
         $file_data = $this->generateFileName($file_data);
@@ -93,6 +91,7 @@ class MediaService {
                 copy($files[$single_key_name]["tmp_name"], $file_location);
             }
         }
+
         $save_media_data["name"] = $new_file_name;
         $save_media_data["url"] = date("Y") . '/' . date("m") . '/' . $new_file_name;
         if ($url) {
